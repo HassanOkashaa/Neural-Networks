@@ -17,6 +17,8 @@ PETAL_BLUE_GENE = list(range(256))
 NUM_PETALS = list(range(8))  # Petals range from 0 to 7
 
 GARDEN_SIZE = 8  # 8 flowers
+MUT_RATE = 0.05
+
 
 class Flower:
     def __init__(self):
@@ -31,10 +33,19 @@ class Flower:
         self.fitness = 0  # Initialize fitness to 0
         self.hover_start_time = None  # To track hover start time
 
+    def get_dna(self):
+        return {
+            'center_size': self.center_size,
+            'center_color': (self.center_red, self.center_green, self.center_blue),
+            'petal_color': (self.petal_red, self.petal_green, self.petal_blue),
+            'num_petals': self.num_petals,
+        }
+
+
 garden = []
 for _ in range(GARDEN_SIZE):
-  flower = Flower()
-  garden.append(flower)
+    flower = Flower()
+    garden.append(flower)
 
 # Function to convert RGB values to hex
 def rgb_to_hex(r, g, b):
@@ -100,10 +111,9 @@ def check_hover_duration(flower, fitness_text):
 
 # Function to draw the garden grid
 def draw_garden(canvas, garden_size, canvas_width, canvas_height):
-
-    # Calculate number of columns and rows for the grid
-    cols = int(8)
-    rows = int(1)
+    # Use two rows
+    rows = 1
+    cols = 8  # Calculate columns based on number of flowers
 
     # Calculate the spacing between flowers
     x_spacing = canvas_width // cols
@@ -115,14 +125,65 @@ def draw_garden(canvas, garden_size, canvas_width, canvas_height):
         col = i % cols
         x = (col * x_spacing) + x_spacing // 2
         y = (row * y_spacing) + y_spacing // 2
-        flower = Flower()
         draw_flower(canvas, x, y, garden[i], i)
 
 # Function to handle the button click
+# Function to handle the button click
 def evolve_generation():
+    global garden  # Make garden global to modify it
     print("Evolving new generation...")
-    # Put your logic for evolving the flowers here
-    # You can clear the canvas and redraw flowers or implement any logic you want
+    
+    # Selection
+    sorted_garden = sorted(garden, key=lambda flower: flower.fitness, reverse=True)
+    half_size = len(sorted_garden) // 2
+    selected_for_crossover = sorted_garden[:half_size]
+    new_generation = selected_for_crossover.copy()
+
+    print(f"Top {half_size} flowers selected for crossover (based on fitness):")
+    for i, flower in enumerate(selected_for_crossover):
+        print(f"Flower {i + 1}: DNA: {flower.get_dna()}, Fitness: {flower.fitness}")
+
+    #mutation
+    while len(new_generation) < GARDEN_SIZE:
+        parent1, parent2 = random.sample(selected_for_crossover, 2)
+
+        child = crossover(parent1, parent2)
+
+        if random.random() < MUT_RATE:  #0-1   0.05 5%
+            child.center_red = random.choice(CENTER_RED_GENE)
+
+        new_generation.append(child)
+
+    # Reset fitness of all flowers in the new generation
+    for flower in new_generation:
+        flower.fitness = 0
+
+    # Update garden with the new generation
+    garden = new_generation
+
+    # Redraw the canvas with the new generation
+    canvas.delete("all")
+    draw_garden(canvas, GARDEN_SIZE, 1200, 600)
+    
+    for i, flower in enumerate(new_generation):
+        print(f"Flower {i + 1}: DNA: {flower.get_dna()}, Fitness: {flower.fitness}")
+
+# Crossover
+def crossover(parent1, parent2):
+    child = Flower()
+    child.center_size = random.choice([parent1.center_size, parent2.center_size])
+    child.center_red = random.choice([parent1.center_red, parent2.center_red])
+    child.center_green = random.choice([parent1.center_green, parent2.center_green])
+    child.center_blue = random.choice([parent1.center_blue, parent2.center_blue])
+
+    child.petal_red = random.choice([parent1.petal_red, parent2.petal_red])
+    child.petal_green = random.choice([parent1.petal_green, parent2.petal_green])
+    child.petal_blue = random.choice([parent1.petal_blue, parent2.petal_blue])
+
+    child.num_petals = random.choice([parent1.num_petals, parent2.num_petals])
+
+    return child
+
 
 # Main method to run the Tkinter application
 def main():
@@ -130,8 +191,7 @@ def main():
     root = tk.Tk()
     root.title("Flower Garden")
 
-
-    canvas_width = 600
+    canvas_width = 1200
     canvas_height = 600
     global canvas  # Make canvas global to access in other functions
     canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
