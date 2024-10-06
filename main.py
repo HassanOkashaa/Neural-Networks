@@ -18,7 +18,7 @@ NUM_PETALS = list(range(8))  # Petals range from 0 to 7
 
 GARDEN_SIZE = 8  # 8 flowers
 MUT_RATE = 0.05
-
+GENERATION_NUMBER = 0
 
 class Flower:
     def __init__(self):
@@ -118,7 +118,7 @@ def draw_garden(canvas, garden_size, canvas_width, canvas_height):
     # Calculate the spacing between flowers
     x_spacing = canvas_width // cols
     y_spacing = canvas_height // rows
-
+    fitness_text = canvas.create_text(600, 20, text=f'Generation Number: {GENERATION_NUMBER}')
     # Draw each flower in the grid
     for i in range(len(garden)):
         row = i // cols
@@ -131,8 +131,9 @@ def draw_garden(canvas, garden_size, canvas_width, canvas_height):
 # Function to handle the button click
 def evolve_generation():
     global garden  # Make garden global to modify it
+    global GENERATION_NUMBER
     print("Evolving new generation...")
-    
+    GENERATION_NUMBER += 1
     # Selection
     sorted_garden = sorted(garden, key=lambda flower: flower.fitness, reverse=True)
     half_size = len(sorted_garden) // 2
@@ -163,7 +164,7 @@ def evolve_generation():
 
     # Redraw the canvas with the new generation
     canvas.delete("all")
-    draw_garden(canvas, GARDEN_SIZE, 1200, 600)
+    draw_garden(canvas, GARDEN_SIZE, 1200, 300)
     
     for i, flower in enumerate(new_generation):
         print(f"Flower {i + 1}: DNA: {flower.get_dna()}, Fitness: {flower.fitness}")
@@ -192,7 +193,7 @@ def main():
     root.title("Flower Garden")
 
     canvas_width = 1200
-    canvas_height = 600
+    canvas_height = 300
     global canvas  # Make canvas global to access in other functions
     canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
     canvas.pack()
