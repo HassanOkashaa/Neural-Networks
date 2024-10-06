@@ -31,6 +31,11 @@ class Flower:
         self.fitness = 0  # Initialize fitness to 0
         self.hover_start_time = None  # To track hover start time
 
+garden = []
+for _ in range(GARDEN_SIZE):
+  flower = Flower()
+  garden.append(flower)
+
 # Function to convert RGB values to hex
 def rgb_to_hex(r, g, b):
     return f'#{r:02x}{g:02x}{b:02x}'
@@ -95,22 +100,23 @@ def check_hover_duration(flower, fitness_text):
 
 # Function to draw the garden grid
 def draw_garden(canvas, garden_size, canvas_width, canvas_height):
-    # Use two rows
-    rows = 2
-    cols = (garden_size + 1) // rows  # Calculate columns based on number of flowers
+
+    # Calculate number of columns and rows for the grid
+    cols = int(8)
+    rows = int(1)
 
     # Calculate the spacing between flowers
     x_spacing = canvas_width // cols
     y_spacing = canvas_height // rows
 
     # Draw each flower in the grid
-    for i in range(garden_size):
+    for i in range(len(garden)):
         row = i // cols
         col = i % cols
         x = (col * x_spacing) + x_spacing // 2
         y = (row * y_spacing) + y_spacing // 2
         flower = Flower()
-        draw_flower(canvas, x, y, flower, i)
+        draw_flower(canvas, x, y, garden[i], i)
 
 # Function to handle the button click
 def evolve_generation():
@@ -122,7 +128,7 @@ def evolve_generation():
 root = tk.Tk()
 root.title("Flower Garden")
 
-canvas_width = 600
+canvas_width = 1200
 canvas_height = 600
 canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
 canvas.pack()
