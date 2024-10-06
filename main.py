@@ -61,7 +61,7 @@ def draw_flower(canvas, x, y, flower, flower_index):
     petal_color = rgb_to_hex(flower.petal_red, flower.petal_green, flower.petal_blue)
 
     # Draw the stem (thin black rectangle)
-    canvas.create_rectangle(x - 5, y + radius, x + 5, y + 100, fill="black")
+    canvas.create_rectangle(x - 3, y + radius, x + 3, y + 100, fill="black")
 
     # Get the number of petals and calculate the angle between them
     num_petals = flower.num_petals
