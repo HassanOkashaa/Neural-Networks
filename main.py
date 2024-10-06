@@ -124,20 +124,28 @@ def evolve_generation():
     # Put your logic for evolving the flowers here
     # You can clear the canvas and redraw flowers or implement any logic you want
 
-# Set up tkinter window
-root = tk.Tk()
-root.title("Flower Garden")
+# Main method to run the Tkinter application
+def main():
+    # Set up tkinter window
+    root = tk.Tk()
+    root.title("Flower Garden")
 
-canvas_width = 1200
-canvas_height = 600
-canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
-canvas.pack()
 
-# Draw the garden with GARDEN_SIZE number of flowers
-draw_garden(canvas, GARDEN_SIZE, canvas_width, canvas_height)
+    canvas_width = 600
+    canvas_height = 600
+    global canvas  # Make canvas global to access in other functions
+    canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
+    canvas.pack()
 
-# Create "Evolve New Generation" button
-evolve_button = tk.Button(root, text="Evolve New Generation", command=evolve_generation)
-evolve_button.pack(pady=10)  # Add some padding for better spacing
+    # Draw the garden with GARDEN_SIZE number of flowers
+    draw_garden(canvas, GARDEN_SIZE, canvas_width, canvas_height)
 
-root.mainloop()
+    # Create "Evolve New Generation" button
+    evolve_button = tk.Button(root, text="Evolve New Generation", command=evolve_generation)
+    evolve_button.pack(pady=10)  # Add some padding for better spacing
+
+    root.mainloop()
+
+# Call the main method to run the program
+if __name__ == "__main__":
+    main()
