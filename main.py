@@ -144,16 +144,80 @@ def evolve_generation():
     for i, flower in enumerate(selected_for_crossover):
         print(f"Flower {i + 1}: DNA: {flower.get_dna()}, Fitness: {flower.fitness}")
 
-    #mutation
-    while len(new_generation) < GARDEN_SIZE:
-        parent1, parent2 = random.sample(selected_for_crossover, 2)
+    
+    # while len(new_generation) < GARDEN_SIZE:
 
-        child = crossover(parent1, parent2)
+    #crossover
+    for i in range(0, len(new_generation) - 1, 2):
 
-        if random.random() < MUT_RATE:  #0-1   0.05 5%
-            child.center_red = random.choice(CENTER_RED_GENE)
+        parent1, parent2 = selected_for_crossover[i], selected_for_crossover[i+1]
+        child1, child2 = crossover(parent1, parent2)
 
-        new_generation.append(child)
+        new_generation.append(child1)
+        new_generation.append(child2)
+
+
+     #mutation
+    flowerChoice1 = random.randint(0,7)
+    flowerChoice2 = random.randint(0,7)
+    flowerChoice3 = random.randint(0,7)
+    flowers_arr= [flowerChoice1,flowerChoice2,flowerChoice3]
+    #get a random bit in every flower
+    f1bit = random.randint(1,8)
+    f2bit = random.randint(1,8)
+    f3bit = random.randint(1,8)
+    bits_arr=[f1bit,f2bit,f3bit]
+    for i in range(3):
+        if bits_arr[i] == 1:
+            new_value = random.choice([0, 1])
+            new_generation[flowers_arr[i]].center_size = new_value
+            print(f"Flower {flowers_arr[i]}: center_size set to {new_value}")
+            
+        if bits_arr[i] == 2:
+            new_value = random.randint(0, 255)
+            new_generation[flowers_arr[i]].center_red = new_value
+            print(f"Flower {flowers_arr[i]}: center_red set to {new_value}")
+            
+        if bits_arr[i] == 3:
+            new_value = random.randint(0, 255)
+            new_generation[flowers_arr[i]].center_green = new_value
+            print(f"Flower {flowers_arr[i]}: center_green set to {new_value}")
+            
+        if bits_arr[i] == 4:
+            new_value = random.randint(0, 255)
+            new_generation[flowers_arr[i]].center_blue = new_value
+            print(f"Flower {flowers_arr[i]}: center_blue set to {new_value}")
+            
+        if bits_arr[i] == 5:
+            new_value = random.randint(0, 255)
+            new_generation[flowers_arr[i]].petal_red = new_value
+            print(f"Flower {flowers_arr[i]}: petal_red set to {new_value}")
+            
+        if bits_arr[i] == 6:
+            new_value = random.randint(0, 255)
+            new_generation[flowers_arr[i]].petal_green = new_value
+            print(f"Flower {flowers_arr[i]}: petal_green set to {new_value}")
+            
+        if bits_arr[i] == 7:
+            new_value = random.randint(0, 255)
+            new_generation[flowers_arr[i]].petal_blue = new_value
+            print(f"Flower {flowers_arr[i]}: petal_blue set to {new_value}")
+            
+        if bits_arr[i] == 8:
+            new_value = random.randint(0, 7)
+            new_generation[flowers_arr[i]].num_petals = new_value
+            print(f"Flower {flowers_arr[i]}: num_petals set to {new_value}")
+
+
+
+    
+    
+
+
+
+    #get 3 random bit
+
+    #get 3 random bit
 
     # Reset fitness of all flowers in the new generation
     for flower in new_generation:
@@ -171,19 +235,32 @@ def evolve_generation():
 
 # Crossover
 def crossover(parent1, parent2):
-    child = Flower()
-    child.center_size = random.choice([parent1.center_size, parent2.center_size])
-    child.center_red = random.choice([parent1.center_red, parent2.center_red])
-    child.center_green = random.choice([parent1.center_green, parent2.center_green])
-    child.center_blue = random.choice([parent1.center_blue, parent2.center_blue])
+    child1 = Flower()
+    child2 = Flower()
 
-    child.petal_red = random.choice([parent1.petal_red, parent2.petal_red])
-    child.petal_green = random.choice([parent1.petal_green, parent2.petal_green])
-    child.petal_blue = random.choice([parent1.petal_blue, parent2.petal_blue])
+    child1.center_size = parent1.center_size
+    child1.center_red = parent1.center_red
+    child1.center_green = parent1.center_green
+    child1.center_blue = parent1.center_blue
 
-    child.num_petals = random.choice([parent1.num_petals, parent2.num_petals])
+    child1.petal_red = parent2.petal_red
+    child1.petal_green = parent2.petal_green
+    child1.petal_blue =  parent2.petal_blue
+    child1.num_petals = parent2.num_petals
 
-    return child
+
+
+    child2.center_size =  parent2.center_size
+    child2.center_red = parent2.center_red
+    child2.center_green = parent2.center_green
+    child2.center_blue = parent2.center_blue
+
+    child2.petal_red = parent1.petal_red
+    child2.petal_green = parent1.petal_green
+    child2.petal_blue = parent1.petal_blue
+    child2.num_petals = parent1.num_petals
+
+    return child1, child2
 
 
 # Main method to run the Tkinter application
