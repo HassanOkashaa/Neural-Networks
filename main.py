@@ -189,42 +189,42 @@ def mutation(new_generation):
         if bits_arr[i] == 1:
             new_value = random.choice([0, 1])
             new_generation[flowers_arr[i]].center_size = new_value
-            print(f"Flower {flowers_arr[i]}: center_size set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: center_size set to {new_value}")
             
         if bits_arr[i] == 2:
             new_value = random.randint(0, 255)
             new_generation[flowers_arr[i]].center_red = new_value
-            print(f"Flower {flowers_arr[i]}: center_red set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: center_red set to {new_value}")
             
         if bits_arr[i] == 3:
             new_value = random.randint(0, 255)
             new_generation[flowers_arr[i]].center_green = new_value
-            print(f"Flower {flowers_arr[i]}: center_green set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: center_green set to {new_value}")
             
         if bits_arr[i] == 4:
             new_value = random.randint(0, 255)
             new_generation[flowers_arr[i]].center_blue = new_value
-            print(f"Flower {flowers_arr[i]}: center_blue set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: center_blue set to {new_value}")
             
         if bits_arr[i] == 5:
             new_value = random.randint(0, 255)
             new_generation[flowers_arr[i]].petal_red = new_value
-            print(f"Flower {flowers_arr[i]}: petal_red set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: petal_red set to {new_value}")
             
         if bits_arr[i] == 6:
             new_value = random.randint(0, 255)
             new_generation[flowers_arr[i]].petal_green = new_value
-            print(f"Flower {flowers_arr[i]}: petal_green set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: petal_green set to {new_value}")
             
         if bits_arr[i] == 7:
             new_value = random.randint(0, 255)
             new_generation[flowers_arr[i]].petal_blue = new_value
-            print(f"Flower {flowers_arr[i]}: petal_blue set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: petal_blue set to {new_value}")
             
         if bits_arr[i] == 8:
             new_value = random.randint(0, 7)
             new_generation[flowers_arr[i]].num_petals = new_value
-            print(f"Flower {flowers_arr[i]}: num_petals set to {new_value}")
+            print(f"Flower {flowers_arr[i] + 1}: num_petals set to {new_value}")
     return new_generation
 
 def evolve_generation():
