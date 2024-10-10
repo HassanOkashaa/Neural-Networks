@@ -180,7 +180,7 @@ def mutation(new_generation):
     flowerChoice2 = random.randint(0,7)
     flowerChoice3 = random.randint(0,7)
     flowers_arr= [flowerChoice1,flowerChoice2,flowerChoice3]
-    #get a random bit in every flower
+    #random bit in every selected flower
     f1bit = random.randint(1,8)
     f2bit = random.randint(1,8)
     f3bit = random.randint(1,8)
